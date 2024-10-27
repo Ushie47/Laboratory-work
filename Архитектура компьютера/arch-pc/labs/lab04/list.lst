@@ -1,0 +1,18 @@
+     1                                  SECTION .data
+     2 00000000 48656C6C6F2C20776F-         hello: db 'Hello, world!', 10   ; Define a string with a newline
+     2 00000009 726C64210A         
+     3                                      helloLen equ $ - hello          ; Calculate the length of the string
+     4                                  
+     5                                  SECTION .text
+     6                                      global _start
+     7                                  
+     8                                  _start:
+     9 00000000 B804000000                  mov eax, 4          ; sys_write (4)
+    10 00000005 BB01000000                  mov ebx, 1          ; file descriptor (stdout)
+    11 0000000A B9[00000000]                mov ecx, hello      ; pointer to string
+    12 0000000F BA0E000000                  mov edx, helloLen   ; length of the string
+    13 00000014 CD80                        int 0x80            ; interrupt to invoke system call
+    14                                  
+    15 00000016 B801000000                  mov eax, 1          ; sys_exit (1)
+    16 0000001B 31DB                        xor ebx, ebx        ; return 0 status
+    17 0000001D CD80                        int 0x80            ; interrupt to invoke system call
